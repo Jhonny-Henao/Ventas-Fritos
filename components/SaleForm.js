@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trash2 } from 'lucide-react';
 
 const SaleForm = ({ currentSale, setCurrentSale, products, addSale, getCurrentSaleTotal }) => {
   const updateQuantity = (productName, quantity) => {
@@ -43,9 +44,9 @@ const SaleForm = ({ currentSale, setCurrentSale, products, addSale, getCurrentSa
               <span className="text-sm font-bold text-green-700">${item.price.toLocaleString('es-CO')}</span>
               <input
                 type="number"
-                value={item.quantity}
+                value={item.quantity === 0 ? '' : item.quantity}
                 onChange={(e) => updateQuantity(item.product, e.target.value)}
-                className="w-20 px-3 py-2 border-2 border-gray-300 rounded-md text-center font-bold text-gray-900 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-20 px-3 py-2 border-2 border-gray-300 rounded-md text-center font-bold text-gray-900 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 min="0"
                 placeholder="0"
               />

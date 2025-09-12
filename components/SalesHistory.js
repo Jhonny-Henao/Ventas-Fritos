@@ -1,6 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  
+  // Resetear a página 1 cuando cambie el número de ventas
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sales.length]);
+
+  // Calcular totales para paginación
+  const totalPages = Math.ceil(sales.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentSales = sales.slice(startIndex, endIndex);
+
+  // Funciones de navegación
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToPage = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Generar números de página para mostrar
+  const getPageNumbers = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-6">
@@ -32,45 +72,106 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
       {sales.length === 0 ? (
         <p className="text-gray-500 text-center py-8">No hay ventas registradas aún</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="px-4 py-3 text-left font-bold text-gray-900 border">Cliente</th>
-                <th className="px-4 py-3 text-left font-bold text-gray-900 border">Productos</th>
-                <th className="px-4 py-3 text-left font-bold text-gray-900 border">Fecha</th>
-                <th className="px-4 py-3 text-left font-bold text-gray-900 border">Total</th>
-                <th className="px-4 py-3 text-left font-bold text-gray-900 border">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sales.map((sale) => (
-                <tr key={sale.id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-3 font-semibold text-gray-900 border">{sale.customerName}</td>
-                  <td className="px-4 py-3 border">
-                    {sale.items.map((item, idx) => (
-                      <div key={idx} className="text-sm font-medium text-gray-800">
-                        {item.quantity}x {item.product}
-                      </div>
-                    ))}
-                  </td>
-                  <td className="px-4 py-3 text-sm font-medium text-gray-700 border">{sale.date}</td>
-                  <td className="px-4 py-3 font-bold text-green-700 text-lg border">
-                    ${sale.total.toLocaleString('es-CO')}
-                  </td>
-                  <td className="px-4 py-3 border">
-                    <button
-                      onClick={() => deleteSale(sale.id)}
-                      className="text-red-500 hover:text-red-700 font-bold text-lg"
-                    >
-                      🗑️
-                    </button>
-                  </td>
+        <>
+          {/* Información de página actual */}
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-sm text-gray-600">
+              Mostrando {startIndex + 1} - {Math.min(endIndex, sales.length)} de {sales.length} ventas
+            </div>
+            <div className="text-sm text-gray-600">
+              Página {currentPage} de {totalPages}
+            </div>
+          </div>
+
+          {/* Tabla de ventas */}
+          <div className="overflow-x-auto mb-6">
+            <table className="w-full table-auto border-collapse">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-4 py-3 text-left font-bold text-gray-900 border">Cliente</th>
+                  <th className="px-4 py-3 text-left font-bold text-gray-900 border">Productos</th>
+                  <th className="px-4 py-3 text-left font-bold text-gray-900 border">Fecha</th>
+                  <th className="px-4 py-3 text-left font-bold text-gray-900 border">Total</th>
+                  <th className="px-4 py-3 text-left font-bold text-gray-900 border">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {currentSales.map((sale) => (
+                  <tr key={sale.id} className="border-t hover:bg-gray-50">
+                    <td className="px-4 py-3 font-semibold text-gray-900 border">{sale.customerName}</td>
+                    <td className="px-4 py-3 border">
+                      {sale.items.map((item, idx) => (
+                        <div key={idx} className="text-sm font-medium text-gray-800">
+                          {item.quantity}x {item.product}
+                        </div>
+                      ))}
+                    </td>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-700 border">{sale.date}</td>
+                    <td className="px-4 py-3 font-bold text-green-700 text-lg border">
+                      ${sale.total.toLocaleString('es-CO')}
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <button
+                        onClick={() => deleteSale(sale.id)}
+                        className="text-red-500 hover:text-red-700 font-bold text-lg"
+                      >
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Controles de paginación */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center space-x-2">
+              {/* Botón anterior */}
+              <button
+                onClick={goToPrevPage}
+                disabled={currentPage === 1}
+                className={`px-3 py-2 rounded-lg font-semibold ${
+                  currentPage === 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-orange-500 text-white hover:bg-orange-600'
+                }`}
+              >
+                ← Anterior
+              </button>
+
+              {/* Números de página */}
+              <div className="flex space-x-1">
+                {getPageNumbers().map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => goToPage(page)}
+                    className={`px-3 py-2 rounded-lg font-semibold ${
+                      currentPage === page
+                        ? 'bg-orange-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Botón siguiente */}
+              <button
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-2 rounded-lg font-semibold ${
+                  currentPage === totalPages
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-orange-500 text-white hover:bg-orange-600'
+                }`}
+              >
+                Siguiente →
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
