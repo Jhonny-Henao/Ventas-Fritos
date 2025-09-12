@@ -134,7 +134,7 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
                 className={`px-3 py-2 rounded-lg font-semibold ${
                   currentPage === 1
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-orange-500 text-white hover:bg-orange-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
                 }`}
               >
                 ← Anterior
@@ -148,7 +148,7 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
                     onClick={() => goToPage(page)}
                     className={`px-3 py-2 rounded-lg font-semibold ${
                       currentPage === page
-                        ? 'bg-orange-600 text-white'
+                        ? 'bg-green-600 text-white'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                     }`}
                   >
@@ -164,7 +164,7 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
                 className={`px-3 py-2 rounded-lg font-semibold ${
                   currentPage === totalPages
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-orange-500 text-white hover:bg-orange-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
                 }`}
               >
                 Siguiente →

@@ -27,7 +27,7 @@ const SaleForm = ({ currentSale, setCurrentSale, products, addSale, getCurrentSa
           type="text"
           value={currentSale.customerName}
           onChange={(e) => setCurrentSale({...currentSale, customerName: e.target.value})}
-          className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-gray-900 font-medium bg-white placeholder-gray-500"
+          className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 font-medium bg-white placeholder-gray-500"
           placeholder="Ingresa el nombre del cliente"
         />
       </div>
@@ -46,7 +46,7 @@ const SaleForm = ({ currentSale, setCurrentSale, products, addSale, getCurrentSa
                 type="number"
                 value={item.quantity === 0 ? '' : item.quantity}
                 onChange={(e) => updateQuantity(item.product, e.target.value)}
-                className="w-20 px-3 py-2 border-2 border-gray-300 rounded-md text-center font-bold text-gray-900 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-20 px-3 py-2 border-2 border-gray-300 rounded-md text-center font-bold text-gray-900 bg-white focus:ring-2 focus:ring-green-500 focus:border-grenn-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 min="0"
                 placeholder="0"
               />
