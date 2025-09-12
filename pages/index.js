@@ -75,6 +75,26 @@ const FritosSalesApp = () => {
     return sales.reduce((total, sale) => total + sale.total, 0);
   };
 
+  // Nueva función para calcular productos vendidos
+  const getProductsSold = () => {
+    const productTotals = {
+      'Arepas': 0,
+      'Empanadas': 0,
+      'Papas': 0,
+      'Pasteles': 0
+    };
+
+    sales.forEach(sale => {
+      sale.items.forEach(item => {
+        if (productTotals.hasOwnProperty(item.product)) {
+          productTotals[item.product] += item.quantity;
+        }
+      });
+    });
+
+    return productTotals;
+  };
+
   const addSale = () => {
     if (!currentSale.customerName.trim()) {
       alert('Por favor ingresa el nombre del cliente');
@@ -129,21 +149,112 @@ const FritosSalesApp = () => {
     }
   };
 
+  const productsSold = getProductsSold();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 p-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header Mejorado */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-orange-800 mb-4">🍟 Ventas de Fritos</h1>
-          <div className="bg-gradient-to-r from-green-400 to-green-600 text-white rounded-xl p-6 shadow-lg">
-            <div className="text-4xl font-bold mb-2">
-              💰 Total del Día: ${getTotalSales().toLocaleString('es-CO')}
+<div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-100 p-4">
+  <div className="max-w-6xl mx-auto">
+    {/* Header Profesional */}
+    <div className="text-center mb-8">
+<h1 className="text-5xl font-bold mb-6 tracking-tight">
+  <span> 🥟 </span>
+  <span className="bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent">
+    Fritos
+  </span>
+  <span> 🥔</span>
+</h1>
+
+      
+      {/* Card Principal con Animaciones */}
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all duration-500 hover:shadow-3xl hover:scale-[1.02]">
+        {/* Header del Card */}
+        <div className="bg-gradient-to-r from-sky-300 to-sky-500 text-white p-8">
+          <div className="text-5xl font-bold mb-4 transform transition-transform duration-300 hover:scale-110">
+            💰 ${getTotalSales().toLocaleString('es-CO')}
+          </div>
+          <div className="text-xl opacity-90 mb-2">
+            Total de Ventas del Día
+          </div>
+          <div className="text-lg opacity-75 flex items-center justify-center gap-2">
+            <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            {sales.length} ventas realizadas
+          </div>
+        </div>
+
+        {/* Sección de Productos Vendidos */}
+        <div className="p-8 bg-gradient-to-br from-white to-slate-50">
+          <div className="text-2xl font-bold text-slate-700 mb-6 text-center">
+            📈 Resumen de Productos
+          </div>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Arepas */}
+            <div className="group bg-white rounded-xl border-2 border-blue-100 p-6 shadow-lg transform transition-all duration-300 hover:border-blue-300 hover:shadow-xl hover:-translate-y-2 hover:bg-blue-50">
+              <div className="text-center">
+                <div className="text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
+                  🫓
+                </div>
+                <div className="text-slate-600 font-semibold mb-2">Arepas</div>
+                <div className="text-3xl font-bold text-blue-600 transform transition-all duration-300 group-hover:scale-110">
+                  {productsSold.Arepas}
+                </div>
+              </div>
+              <div className="mt-4 h-1 bg-blue-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transform transition-all duration-1000 group-hover:translate-x-full"></div>
+              </div>
             </div>
-            <div className="text-lg">
-              📊 {sales.length} ventas realizadas
+
+            {/* Empanadas */}
+            <div className="group bg-white rounded-xl border-2 border-amber-100 p-6 shadow-lg transform transition-all duration-300 hover:border-amber-300 hover:shadow-xl hover:-translate-y-2 hover:bg-amber-50">
+              <div className="text-center">
+                <div className="text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
+                  🥟
+                </div>
+                <div className="text-slate-600 font-semibold mb-2">Empanadas</div>
+                <div className="text-3xl font-bold text-amber-600 transform transition-all duration-300 group-hover:scale-110">
+                  {productsSold.Empanadas}
+                </div>
+              </div>
+              <div className="mt-4 h-1 bg-amber-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded-full transform transition-all duration-1000 group-hover:translate-x-full"></div>
+              </div>
+            </div>
+
+            {/* Papas */}
+            <div className="group bg-white rounded-xl border-2 border-emerald-100 p-6 shadow-lg transform transition-all duration-300 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-2 hover:bg-emerald-50">
+              <div className="text-center">
+                <div className="text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
+                  🥔
+                </div>
+                <div className="text-slate-600 font-semibold mb-2">Papas</div>
+                <div className="text-3xl font-bold text-emerald-600 transform transition-all duration-300 group-hover:scale-110">
+                  {productsSold.Papas}
+                </div>
+              </div>
+              <div className="mt-4 h-1 bg-emerald-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full transform transition-all duration-1000 group-hover:translate-x-full"></div>
+              </div>
+            </div>
+
+            {/* Pasteles */}
+            <div className="group bg-white rounded-xl border-2 border-rose-100 p-6 shadow-lg transform transition-all duration-300 hover:border-purple-300 hover:shadow-xl hover:-translate-y-2 hover:bg-rose-50">
+              <div className="text-center">
+                <div className="text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
+                  🍗
+                </div>
+                <div className="text-slate-600 font-semibold mb-2">Pasteles</div>
+                <div className="text-3xl font-bold text-purple-600 transform transition-all duration-300 group-hover:scale-110">
+                  {productsSold.Pasteles}
+                </div>
+              </div>
+              <div className="mt-4 h-1 bg-purple-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full transform transition-all duration-1000 group-hover:translate-x-full"></div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
         <div className="grid lg:grid-cols-2 gap-6 mb-8">
           <PriceConfig 

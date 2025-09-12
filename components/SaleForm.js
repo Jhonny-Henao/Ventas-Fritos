@@ -64,7 +64,7 @@ const SaleForm = ({ currentSale, setCurrentSale, products, addSale, getCurrentSa
 
       <button
         onClick={addSale}
-        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 text-lg"
+        className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg transition duration-200 text-lg"
       >
         Registrar Venta
       </button>
