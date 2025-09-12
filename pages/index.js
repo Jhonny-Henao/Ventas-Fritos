@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Trash2 } from 'lucide-react';
+
 // Importar los componentes (cuando los separas en archivos)
-import PriceConfig from './components/PriceConfig';
-import SaleForm from './components/SaleForm';
-import SalesHistory from './components/SalesHistory';
+import PriceConfig from '../components/PriceConfig';
+import SaleForm from '../components/SaleForm';
+import SalesHistory from '../components/SalesHistory';
 
 // Componente Principal
 const FritosSalesApp = () => {
