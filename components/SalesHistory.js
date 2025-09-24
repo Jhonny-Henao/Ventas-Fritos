@@ -32,6 +32,43 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
     setCurrentPage(page);
   };
 
+  // Función para generar números de página inteligentes
+  const getSmartPageNumbers = (currentPage, totalPages) => {
+    const delta = 2; // Número de páginas a mostrar a cada lado de la página actual
+    const range = [];
+    const rangeWithDots = [];
+
+    // Siempre incluir la primera página
+    range.push(1);
+
+    // Calcular el rango alrededor de la página actual
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+      range.push(i);
+    }
+
+    // Siempre incluir la última página (si no es la primera)
+    if (totalPages > 1) {
+      range.push(totalPages);
+    }
+
+    // Remover duplicados y ordenar
+    const uniqueRange = [...new Set(range)].sort((a, b) => a - b);
+
+    // Agregar puntos suspensivos donde sea necesario
+    let prev = 0;
+    for (const page of uniqueRange) {
+      if (page - prev === 2) {
+        rangeWithDots.push(prev + 1);
+      } else if (page - prev !== 1) {
+        rangeWithDots.push('...');
+      }
+      rangeWithDots.push(page);
+      prev = page;
+    }
+
+    return rangeWithDots;
+  };
+
   // Generar números de página para mostrar
   const getPageNumbers = () => {
     const pages = [];
@@ -124,9 +161,9 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
             </table>
           </div>
 
-          {/* Controles de paginación */}
+          {/* Controles de paginación mejorados */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-2">
+            <div className="flex justify-center items-center space-x-2 flex-wrap">
               {/* Botón anterior */}
               <button
                 onClick={goToPrevPage}
@@ -140,21 +177,36 @@ const SalesHistory = ({ sales, deleteSale, clearAllData, getTotalSales }) => {
                 ← Anterior
               </button>
 
-              {/* Números de página */}
-              <div className="flex space-x-1">
-                {getPageNumbers().map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => goToPage(page)}
-                    className={`px-3 py-2 rounded-lg font-semibold ${
-                      currentPage === page
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+              {/* Números de página inteligentes */}
+              <div className="flex space-x-1 flex-wrap">
+                {getSmartPageNumbers(currentPage, totalPages).map((page, index) => {
+                  // Si es puntos suspensivos
+                  if (page === '...') {
+                    return (
+                      <span
+                        key={`dots-${index}`}
+                        className="px-3 py-2 text-gray-500"
+                      >
+                        ...
+                      </span>
+                    );
+                  }
+
+                  // Si es un número de página
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => goToPage(page)}
+                      className={`px-3 py-2 rounded-lg font-semibold ${
+                        currentPage === page
+                          ? 'bg-green-600 text-white'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Botón siguiente */}
