@@ -18,7 +18,7 @@ const PriceConfig = ({ products, updateProductPrice }) => {
                 type="number"
                 value={product.price === 0 ? '' : product.price}
                 onChange={(e) => updateProductPrice(product.name, e.target.value)}
-                className="w-24 px-3 py-2 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-gray-900 font-semibold bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-24 px-3 py-2 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 font-semibold bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 min="0"
                 step="500"
                 placeholder="0"
